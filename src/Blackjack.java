@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 
 public class Blackjack {
-    private static final String PLAY = "Играть";
-    private static final String JOIN = "Присоедениться";
-    private static final String HELP = "Помошь";
-    private static final String EXIT = "Выход";
-    private static final String PLAYERS = "Игроки";
+    private static final String PLAY = "играть";
+    private static final String JOIN = "присоединиться";
+    private static final String HELP = "помощь";
+    private static final String EXIT = "выход";
+    private static final String PLAYERS = "игроки";
     private static PlayerPool pool;
     private static Scanner scan;
 
@@ -23,11 +23,11 @@ public class Blackjack {
     private static void showStartMessage() {
         System.out.println("---Блекджек---");
         System.out.println("Введите ");
-        System.out.println("\tИграть          -для начала игры");
-        System.out.println("\tПрисоедениться  -для присоеденения к игровому пулу");
-        System.out.println("\tИгроки          -для перечисления игроков за столом");
-        System.out.println("\tПомошь          -для получения справки о правилах игры");
-        System.out.println("\tВыход           -для немедленного выхода из игры");
+        System.out.println("\t"+firstCharUpperCase(PLAY)+"          -для начала игры");
+        System.out.println("\t"+firstCharUpperCase(JOIN)+"  -для присоединения к игровому пулу");
+        System.out.println("\t"+firstCharUpperCase(PLAYERS)+"          -для перечисления игроков за столом");
+        System.out.println("\t"+firstCharUpperCase(HELP)+"          -для получения справки о правилах игры");
+        System.out.println("\t"+firstCharUpperCase(EXIT)+"           -для немедленного выхода из игры");
     }
     private static void userAskCycle() {
         scan = new Scanner(System.in);
@@ -35,6 +35,7 @@ public class Blackjack {
         while(true) {
             System.out.print("\n:");
             humanAnswer = scan.nextLine();
+            humanAnswer = humanAnswer.toLowerCase(); // Конвертируем строку в нижний регистр
             if (humanAnswer.equals(PLAY)) {
                 humanAnswer = "";
                 play();
@@ -49,6 +50,7 @@ public class Blackjack {
                 exit();
             } else if (humanAnswer.equals(PLAYERS)) {
                 humanAnswer = "";
+//                System.out.println(pool.playerList());
                 showAllPlayersInPool();
             } else {
                 System.out.println("Команда не распознана. Повторите ввод");
@@ -149,19 +151,24 @@ public class Blackjack {
     }
     private static void showAllPlayersInPool() {
         System.out.println("В игре: ");
-        for(int nextPlayer = 0; nextPlayer < pool.getPoolSize(); nextPlayer++) {
-            Player cycleDummy = pool.getPlayer(nextPlayer);
-            if(cycleDummy instanceof Dealer) {
-                System.out.println("\tКрупье ");
-            }
-            else if(cycleDummy instanceof AIPlayer) {
-                System.out.println("\t" + cycleDummy.getName() + " " + cycleDummy.getSurname() + " ID " + cycleDummy.getUnicID() + " (Бот)");
-            }
-            else if(cycleDummy instanceof HumanPlayer) {
-                System.out.println("\t"+ cycleDummy.getName() + " " + cycleDummy.getSurname() + " ID " + cycleDummy.getUnicID() + " (Человек)");
-            }
-        }
+        System.out.println(pool.personList());
         System.out.println("\tВсего: " + pool.getPoolSize());
+    }
+
+    // Превращает первую строчную букву в прописную
+    private static String firstCharUpperCase(String word) {
+        String upperCaseWord = new String(word);
+
+        char firstChar = word.charAt(0); // первый символ
+
+        char upperCaseFirstChar = Character.toUpperCase(firstChar); // в верхний регистр
+
+        // Переводим в строку для replaceFirst -\_oO_/-
+        String firstCharString = Character.toString(firstChar);
+        String upperCharString = Character.toString(upperCaseFirstChar);
+        upperCaseWord = upperCaseWord.replaceFirst(firstCharString, upperCharString);
+
+        return upperCaseWord;
     }
     private static void exit() {
         System.exit(0);

@@ -78,6 +78,14 @@ public abstract class Player {
     public final int getUnicID() {
         return unicID;
     }
+    // Вся информация об игроке
+    public String getInfo() {
+        String info = new String();
+        info = "[ID: "+ Integer.toString(unicID)+ "] "
+                      + name + " "
+                      + surname;
+        return info;
+    }
     public void takeCardsOnStart(Deck deck) {
         hand = new Hand(deck.giveCardsOnStart());
     }

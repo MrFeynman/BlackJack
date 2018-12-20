@@ -53,4 +53,26 @@ public class PlayerPool {
     public int getPoolSize() {
         return players.length;
     }
+
+    // Список персон присутсвующих в игре
+    public String personList() {
+        StringBuffer playerList = new StringBuffer();
+
+        for (Player nextPerson : players) {
+            if (nextPerson instanceof Dealer) {
+                playerList.append("\t[Крупье]\n");
+                continue;
+            }
+            else if (nextPerson instanceof AIPlayer) {
+                playerList.append("\t[Бот] ");
+            }
+            else if (nextPerson instanceof HumanPlayer) {
+                playerList.append("\t[Человек] ");
+            }
+            playerList.append(nextPerson.getInfo());
+            playerList.append("\n");
+        }
+
+        return playerList.toString();
+    }
 }
